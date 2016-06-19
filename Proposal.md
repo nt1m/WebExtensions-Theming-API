@@ -20,6 +20,12 @@ See https://developer.chrome.com/extensions/themes
 
 We could possibly add more manifest entries based on add-on authors needs.
 
+### Issues
+- The Chrome model is obviously too limited
+  - How do we handle box-shadows, outlines, borders,... ?
+- The manifest names that Chrome provides don't have a CSS-based logic
+  - That means it's hard to extend the Chrome API if we follow the Chrome naming scheme
+
 ## Dynamic theming: Theming elements globally
 ### Use cases
 - Someone wants to apply some styling across all windows on the same element (VivaldiFox coloring of UI elements)

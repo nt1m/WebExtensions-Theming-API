@@ -15,6 +15,11 @@ The goal of this API is to provide extension authors a powerful and sustainable 
 
 # Possible APIs
 
+## Static theming
+See https://developer.chrome.com/extensions/themes
+
+We could possibly add more manifest entries based on add-on authors needs.
+
 ## Dynamic theming: Theming elements globally
 ### Use cases
 - Someone wants to apply some styling across all windows on the same element (VivaldiFox coloring of UI elements)
@@ -32,6 +37,7 @@ Where {manifest-entry} is one of these:
 ## Dynamic theming: Theming individual elements
 ### Use cases
 - Color each tab based on a specific situation (eg. Colorful Tabs: https://addons.mozilla.org/en-US/firefox/addon/colorfultabs/)
+
 ### Syntax
 ```
 browser.ui.getViewFor(el);

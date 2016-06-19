@@ -15,45 +15,50 @@ The goal of this API is to provide extension authors a powerful and sustainable 
 
 # Possible APIs
 
-## Proposal 1: CSS Variables based system
+## Dynamic theming: Theming elements globally
+### Use cases
+- Someone wants to apply some styling across all windows on the same element (VivaldiFox coloring of UI elements)
+- An add-on that would provide 2 themes, and ability to switch between them (VivaldiFox dark vs light themes)
+
 ### Syntax
-browser.ui.setThemeVariable(variable, value);
+```
+browser.ui.{manifest-entry}
+```
 
-Possible variables that could exist:
-- Toolbar styles: navigation-bar-background, navigation-bar-color, tab-bar-background, ...
-- Toolbar button styles: toolbarbutton-background, toolbarbutton-border-color, ...
-- Australis vs Squared tabs: tab-selected-start-clip-path, tab-selected-end-clip-path, ...
+Where {manifest-entry} is one of these:
+- Manifest entries supported by chrome (https://developer.chrome.com/extensions/themes)
+- Other possible properties that Firefox might support based on the add-on authors needs.
 
-The limited subset of variables would target areas that are not subject to frequent changes/removals in Firefox.
-The API would simply override the specified Firefox built-in CSS variable (see [this](https://dxr.mozilla.org/mozilla-central/source/browser/themes/windows/browser.css#18) for a current list of variables).
-
-### Benefits
-- Simple API
-
-### Issues
-- Variable names are a bit arbitrary
-
-## Proposal 2: 
+## Dynamic theming: Theming individual elements
+### Use cases
+- Color each tab based on a specific situation (eg. Colorful Tabs: https://addons.mozilla.org/en-US/firefox/addon/colorfultabs/)
 ### Syntax
+```
 browser.ui.getViewFor(el);
 // el: object returned by a webextension API
 // returns InterfaceElement
-
+```
+```
 InterfaceElement.prototype = {
   get/set background,
   get/set color
 }
-
-### Benefits
-- Powerful API that provides the ability to color each UI element individually (on a case per case basis), something chrome extensions or complete themes can't do.
-
-### Issues
-- A bit more complicated API
-- Needs an easy way to style multiple things at once
-
+```
 ### Example usage
 This example colors tabs based on their URL:
+
+```
 browser.tabs.query({currentWindow: true}).then((tabs) => {
   for (let tab of tabs) {
-    let uiEl = 
+    let uiEl = browser.ui.getViewFor(tab);
+    switch (tab.url) {
+      case "https://google.com":
+        uiEl.background = "blue";
+        break;
+      case "https://yahoo.com":
+        uiEl.background = "purple";
+        break;
+    }
+  }
 });
+```

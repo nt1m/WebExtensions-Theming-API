@@ -49,7 +49,8 @@ Where [state] is optional and corresponds to:
 - hover
 - active
 - focus
-If not defined, it targets default state.
+
+If [state] is not defined, it targets default state.
 
 ## API1: Basic themes
 Support the manifest entries above in manifest.json. See https://developer.chrome.com/extensions/themes

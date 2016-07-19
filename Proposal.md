@@ -1,22 +1,5 @@
-# Goals
-Complete themes have long been considered as the main reference for customization, but they faced many problems such as:
-- they broke with every new release
-- they had to rebundle all browser theme files (even parts the theme didn't care about)
-- every part that remained unthemed by the complete theme was unusable for the user
-
-The goal of this API is to provide extension authors a powerful and sustainable API to customize the User Interface. The API should allow:
-- Changing the color/background of UI elements (toolbars, tabs, possibly more)
-- Changing built in UI images
-- Changing the toolbar button styling
-- Changing the tab style (squared vs australis)
-
-# Challenges
-- The API should stay sustainable (should not break at every Firefox release) while staying powerful
-- See https://docs.google.com/document/d/10DXgMZuO3_LQrs5IQOxn3ErBheRZvIKc3ZHWVBvpI5E/edit#
-
-# Possible APIs
-## Definitions
-### Supported CSS properties
+# Definitions
+## Supported CSS properties
 This includes their longhand properties:
 
 - background
@@ -29,7 +12,7 @@ This includes their longhand properties:
 - text-decoration/text-align/text-transform
 - -webkit-text-fill-color
 
-### Supported manifest entries
+## Supported manifest entries
 - Chrome entries: See https://developer.chrome.com/extensions/themes
 - Firefox naming scheme:
 
@@ -52,25 +35,25 @@ Where [state] is optional and corresponds to:
 
 If [state] is not defined, it targets default state.
 
-## API1: Basic themes
+# API1: Basic themes
 Support the manifest entries above in manifest.json. See https://developer.chrome.com/extensions/themes
 
-## API2: Dynamic themes
-### Use cases
+# API2: Dynamic themes
+## Use cases
 - Basic theme that changes based on the time of the day
 
-### Syntax
+## Syntax
 ```
 browser.ui.{manifest-entry} // This is a getter and a setter
 ```
 
 Where {manifest-entry} corresponds to one of the manifest entries above.
 
-## API3: Theming temporary/user-generated elements
-### Use cases
+# API3: Theming temporary/user-generated elements
+## Use cases
 - Color each tab based on a specific situation (eg. Colorful Tabs: https://addons.mozilla.org/en-US/firefox/addon/colorfultabs/)
 
-### Syntax
+## Syntax
 ```
 browser.ui.getViewFor(el);
 // el: object returned by a webextension API
@@ -84,7 +67,7 @@ InterfaceElement.prototype = {
 }
 ```
 
-### Example usage
+## Example usage
 This example colors tabs based on their URL:
 
 ```

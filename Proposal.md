@@ -12,35 +12,60 @@ The goal of this API is to provide extension authors a powerful and sustainable 
 
 # Challenges
 - The API should stay sustainable (should not break at every Firefox release) while staying powerful
+- See https://docs.google.com/document/d/10DXgMZuO3_LQrs5IQOxn3ErBheRZvIKc3ZHWVBvpI5E/edit#
 
 # Possible APIs
+## Definitions
+### Supported CSS properties
+This includes their longhand properties:
 
-## Static theming
-See https://developer.chrome.com/extensions/themes
+- background
+- color
+- box-shadow
+- text-shadow
+- filter
+- border/outline (border-width should be restricted to reasonable sizes)
+- font (though 8px < font-size < 20px to avoid breaking Firefox)
+- text-decoration/text-align/text-transform
+- -webkit-text-fill-color
 
-We could possibly add more manifest entries based on add-on authors needs.
+### Supported manifest entries
+- Chrome entries: See https://developer.chrome.com/extensions/themes
+- Firefox naming scheme:
 
-### Issues
-- The Chrome model is obviously too limited
-  - How do we handle box-shadows, outlines, borders,... ?
-- The manifest names that Chrome provides don't have a CSS-based logic
-  - That means it's hard to extend the Chrome API if we follow the Chrome naming scheme
+```
+moz.{ui-element}.[state].{css-property}
+```
 
-## Dynamic theming: Theming elements globally
+Where {ui-element} is:
+- toolbar (default value if the values below are not defined)
+- tab-toolbar
+- navigation-toolbar
+- bookmarks-toolbar
+- toolbar-button
+- tab
+
+Where [state] is optional and corresponds to:
+- hover
+- active
+- focus
+If not defined, it targets default state.
+
+## API1: Basic themes
+Support the manifest entries above in manifest.json. See https://developer.chrome.com/extensions/themes
+
+## API2: Dynamic themes
 ### Use cases
-- Someone wants to apply some styling across all windows on the same element (VivaldiFox coloring of UI elements)
-- An add-on that would provide 2 themes, and ability to switch between them (VivaldiFox dark vs light themes)
+- Basic theme that changes based on the time of the day
 
 ### Syntax
 ```
-browser.ui.{manifest-entry}
+browser.ui.{manifest-entry} // This is a getter and a setter
 ```
 
-Where {manifest-entry} is one of these:
-- Manifest entries supported by chrome (https://developer.chrome.com/extensions/themes)
-- Other possible properties that Firefox might support based on the add-on authors needs.
+Where {manifest-entry} corresponds to one of the manifest entries above.
 
-## Dynamic theming: Theming individual elements
+## API3: Theming temporary/user-generated elements
 ### Use cases
 - Color each tab based on a specific situation (eg. Colorful Tabs: https://addons.mozilla.org/en-US/firefox/addon/colorfultabs/)
 
@@ -54,8 +79,10 @@ browser.ui.getViewFor(el);
 InterfaceElement.prototype = {
   get/set background,
   get/set color
+  // ...other CSS properties, see list above
 }
 ```
+
 ### Example usage
 This example colors tabs based on their URL:
 

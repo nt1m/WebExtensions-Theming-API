@@ -1,6 +1,8 @@
 # WebExtensions theming API
 Proposal for a possible theming API for WebExtensions.
 
+If you'd like to skip the reading and check the API proposal directly, click [here](https://github.com/nt1m/WebExtensions-Theming-API/blob/master/Proposal.md).
+
 # Goals
 Complete themes have long been considered as the main reference for customization, but they faced many problems such as:
 - they broke with every new release
